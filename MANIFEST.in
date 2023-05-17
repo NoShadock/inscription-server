@@ -1,0 +1,4 @@
+include senescribe/schema.sql
+graft senescribe/static
+graft senescribe/templates
+global-exclude *.pyc

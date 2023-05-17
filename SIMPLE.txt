@@ -1,0 +1,24 @@
+Senescribe
+======
+
+Install
+-------
+::
+    python3 -m venv venv
+    . venv/bin/activate
+    pip install -e .
+    pip install '.[test]'
+    flask --app senescribe init-db
+
+Run
+---
+::
+    flask --app senescribe run --debug
+
+Test
+----
+::
+    pytest
+    coverage run -m pytest
+    coverage report
+    coverage html  # open htmlcov/index.html in a browser
