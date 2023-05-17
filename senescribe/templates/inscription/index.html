@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Inscriptions{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <table>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Naissance</th>
+      <th>Catégorie</th>
+      <th>Créneau</th>
+      <th>Statut</th>
+      <th></th>
+    </tr>
+    {% for grimpeur in grimpeurs %}
+      <tr>
+        <td>{{ grimpeur['name'] }}</td>
+        <td>{{ grimpeur['firstname'] }}</td>
+        <td>{{ grimpeur['birthdate'] }}</td>
+        <td>{{ grimpeur['category'] }}</td>
+        <td>{{ grimpeur['creneau'] }}</td>
+        <td>{{ grimpeur['status'] }}</td>
+        <td>
+          <form method="post" action="{{ url_for('inscription.update') }}">
+            <input type="hidden" name="grimpeurId" id="grimpeurId" value="{{ grimpeur['id'] }}">
+            <input type="submit" value="modifier">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <form method="get" action="{{ url_for('inscription.create') }}">
+      <input type="submit" value="Ajouter un·e grimpeur·euse">
+  </form>
+{% endblock %}

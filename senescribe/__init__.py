@@ -7,7 +7,6 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        # b'10a6e6a661107520043ae623b86b4367e875bf10386b8d83620613acb4f3730b'
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'senescribe.sqlite'),
     )
@@ -33,11 +32,10 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import auth
+    from .controller import auth, blog, inscription
     app.register_blueprint(auth.bp)
-
-    from . import blog
     app.register_blueprint(blog.bp)
+    app.register_blueprint(inscription.bp)
     app.add_url_rule('/', endpoint='index')
 
     return app

@@ -3,12 +3,12 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from senescribe.auth import login_required
+from senescribe.controller.auth import login_required
 from senescribe.db import get_db
 from senescribe import model
 
 
-bp = Blueprint('blog', __name__)
+bp = Blueprint('blog', __name__, url_prefix='/blog')
 
 
 @bp.route('/')
