@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Inscriptions{% endblock %}</h1>
+  <h3>{% block title %}Inscriptions{% endblock %}</h3>
 {% endblock %}
 
 {% block content %}
-  <table>
+  <table role="grid">
     <tr>
-      <th>Nom</th>
-      <th>Prénom</th>
-      <th>Naissance</th>
-      <th>Catégorie</th>
-      <th>Créneau</th>
-      <th>Statut</th>
-      <th></th>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col">Naissance</th>
+      <th scope="col">Catégorie</th>
+      <th scope="col">Créneau</th>
+      <th scope="col">Statut</th>
+      <th scope="col"></th>
     </tr>
     {% for grimpeur in grimpeurs %}
       <tr>
@@ -24,16 +24,14 @@
         <td>{{ grimpeur['creneau'] }}</td>
         <td>{{ grimpeur['status'] }}</td>
         <td>
-          <form method="post" action="{{ url_for('inscription.update') }}">
-            <input type="hidden" name="grimpeurId" id="grimpeurId" value="{{ grimpeur['id'] }}">
-            <input type="submit" value="modifier">
-          </form>
+          <a role="button" href="{{ url_for('inscription.update', id=grimpeur['id']) }}">Modifier</a>
         </td>
       </tr>
     {% endfor %}
   </table>
 
-  <form method="get" action="{{ url_for('inscription.create') }}">
-      <input type="submit" value="Ajouter un·e grimpeur·euse">
-  </form>
+  <div class="grid">
+    <a role="button" class="secondary" href="{{ url_for('inscription.create') }}">Ajouter un·e grimpeur·euse</a>
+    <a role="button" href="{{ url_for('inscription.checkout') }}">Compléter l'inscription</a>
+  </div>
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Modifier un·e grimpeur·euse{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<section>
+  <form method="post">
+    <label for="name">Nom</label>
+    <input name="name" id="name" type="text" maxlength="255" required value="{{ grimpeur.name }}">
+    
+    <label for="firstname">Prénom</label>
+    <input name="firstname" id="firstname" type="text" maxlength="255" required value="{{ grimpeur.firstname }}">
+    
+    <label for="birthdate">Date de naissance</label>
+    <input name="birthdate" id="birthdate" type="date" required value="{{ grimpeur.birthdate }}">
+
+    <input type="submit" value="Modifier">
+  </form>
+</section>
+
+<section>
+  <small>Attention, toute suppression est définitive !</small>
+  <form method="post" action="{{ url_for('inscription.delete', id=grimpeur['id']) }}">
+    <input type="submit" class="contrast" value="Supprimer" onclick="return confirm('Supprimer?');">
+  </form>
+</section>
+{% endblock %}

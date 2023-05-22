@@ -27,14 +27,14 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/hello')
     def hello():
-        return 'Hello, World!'
+        return '''Hello !<br/>
+Si tu souhaites aider à maintenir ce site, fais nous signe : info@senescalade.bzh'''
 
     from . import db
     db.init_app(app)
 
-    from .controller import auth, blog, inscription
+    from .controller import auth, inscription
     app.register_blueprint(auth.bp)
-    app.register_blueprint(blog.bp)
     app.register_blueprint(inscription.bp)
     app.add_url_rule('/', endpoint='index')
 

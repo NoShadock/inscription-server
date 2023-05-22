@@ -8,4 +8,5 @@ def test_config():
 
 def test_hello(client):
     response = client.get('/hello')
-    assert response.data == b'Hello, World!'
+    msg = 'Hello !<br/>\nSi tu souhaites aider à maintenir ce site, fais nous signe : info@senescalade.bzh'
+    assert response.data == bytes(msg, 'utf-8')

@@ -15,10 +15,11 @@ bp = Blueprint('inscription', __name__)
 @bp.route('/')
 @login_required
 def index():
-    return render_template('inscription/index.html', grimpeurs=[])
+    grimpeurs = model.all_grimpeurs(get_db(), g.user['id'])
+    return render_template('inscription/index.html', grimpeurs=grimpeurs)
 
 
-@bp.route('/add', methods=('GET', 'POST'))
+@bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
     if request.method == 'POST':
@@ -44,45 +45,56 @@ def create():
     return render_template('inscription/create.html')
 
 
-# def get_post(id, check_author=True):
-#     post = model.get_post(get_db(), id)
+def get_grimpeur(id, check_user=True):
+    grimpeur = model.get_grimpeur(get_db(), grimpeur_id=id)
 
-#     if post is None:
-#         abort(404, f"Post id {id} doesn't exist.")
+    if grimpeur is None:
+        abort(404, f"Grimpeur id {id} n'existe pas.")
+    if check_user and grimpeur['user_id'] != g.user['id']:
+        abort(403)
 
-#     if check_author and post['author_id'] != g.user['id']:
-#         abort(403)
-
-#     return post
-
-
-# @bp.route('/<int:id>/update', methods=('GET', 'POST'))
-# @login_required
-# def update(id):
-#     post = get_post(id)
-
-#     if request.method == 'POST':
-#         title = request.form['title']
-#         body = request.form['body']
-#         error = None
-
-#         if not title:
-#             error = 'Title is required.'
-
-#         if error is not None:
-#             flash(error)
-#         else:
-#             db = get_db()
-#             model.update_post(db, id, title, body)
-#             return redirect(url_for('inscription.index'))
-
-#     return render_template('inscription/update.html', post=post)
+    return grimpeur
 
 
-# @bp.route('/<int:id>/delete', methods=('POST',))
-# @login_required
-# def delete(id):
-#     get_post(id)
-#     db = get_db()
-#     model.delete_post(db, id)
-#     return redirect(url_for('inscription.index'))
+@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@login_required
+def update(id):
+    grimpeur = get_grimpeur(id)
+
+    if request.method == 'POST':
+        fields = {
+            'name': Text,
+            'firstname': Text,
+            'birthdate': Birthdate,
+        }
+        error = False
+        grimpeur = dict(grimpeur)
+        for f, checker in fields.items():
+            try:
+                grimpeur[f] = checker().validate(request.form[f])
+            except ValueError as e:
+                grimpeur[f] = request.form[f]
+                flash(' '.join([f, e]))
+                error = True
+
+        if not error:
+            model.update_grimpeur(get_db(), id, grimpeur)
+            return redirect(url_for('inscription.index'))
+
+    return render_template('inscription/update.html', grimpeur=grimpeur)
+
+
+@bp.route('/<int:id>/delete', methods=('POST',))
+@login_required
+def delete(id):
+    model.delete_grimpeur(get_db(), user_id=g.user['id'], grimpeur_id=id)
+    return redirect(url_for('inscription.index'))
+
+
+@bp.route('/checkout', methods=('GET',))
+@login_required
+def checkout():
+    # get_post(id)
+    # db = get_db()
+    # model.delete_post(db, id)
+    return redirect(url_for('inscription.index'))
