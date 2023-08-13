@@ -33,7 +33,8 @@ Si tu souhaites aider à maintenir ce site, fais nous signe : info@senescalade.b
     from . import db
     db.init_app(app)
 
-    from .controller import auth, inscription
+    from .controller import auth, inscription, fun
+    app.register_blueprint(fun.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(inscription.bp)
     app.add_url_rule('/', endpoint='index')
