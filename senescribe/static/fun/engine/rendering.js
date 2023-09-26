@@ -4,7 +4,7 @@
 import {mainCanvasElem, mainCtx} from "./init.js"
 import {world} from "./physics.js";
 
-let cell_size = 30;
+let cell_size = 20;
 
 export function render(){
     render_background();

@@ -1,7 +1,7 @@
-let BASE_MISSILE_SPEED = 1;
 let BASE_PLAYER_SPEED = 0.2;
-let WORLD_END_X = 20;
-let WORLD_END_Y = 20;
+let BASE_MISSILE_SPEED = 4 * BASE_PLAYER_SPEED;
+let WORLD_END_X = 40;
+let WORLD_END_Y = 30;
 
 
 export class Vertex {
