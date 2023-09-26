@@ -3,7 +3,9 @@ Senescribe
 
 Install
 -------
+
 ::
+
     python3 -m venv venv
     . venv/bin/activate
     pip install -e .
@@ -12,12 +14,16 @@ Install
 
 Run
 ---
+
 ::
+
     flask --app senescribe run --debug
 
 Test
 ----
+
 ::
+
     pytest
     coverage run -m pytest
     coverage report
